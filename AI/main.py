@@ -14,7 +14,6 @@ warnings.filterwarnings("ignore")
 import tensorflow as tf
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential
-import tf2onnx
 
 
 # -------------------------------
@@ -118,23 +117,3 @@ with open(args.tflite, "wb") as f:
     f.write(tflite_model)
 
 print(f"{Fore.GREEN}TFLite model saved as {args.tflite}{Style.RESET_ALL}")
-
-# -------------------------------
-# Convert to ONNX
-# -------------------------------
-# Define input signature (batch size can be None)
-print(f"{Fore.YELLOW}Converting to ONNX...{Style.RESET_ALL}")
-onnx_path = args.tflite.replace(".tflite", ".onnx")
-spec = (tf.TensorSpec((None, 5), tf.float32, name="input"),)
-
-# Convert
-model_proto, _ = tf2onnx.convert.from_keras(model, input_signature=spec, opset=13)
-
-# Write to file
-with open(onnx_path, "wb") as f:
-    f.write(model_proto.SerializeToString())
-
-print(f"{Fore.GREEN}ONNX model saved as {onnx_path}\033[0m")
-
-print(f"{Fore.MAGENTA}All done! {Style.RESET_ALL}")
-
