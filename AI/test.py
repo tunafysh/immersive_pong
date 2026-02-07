@@ -5,6 +5,7 @@ import numpy as np
 import os
 import warnings
 from colorama import Fore, Style, init
+import onnxruntime as ort
 init(autoreset=True)
 
 # Silence TF noise
@@ -20,13 +21,14 @@ from tensorflow.keras.models import load_model
 parser = argparse.ArgumentParser(description="Test a trained Pong AI")
 parser.add_argument("--keras", type=str, help="Keras model file (.keras)")
 parser.add_argument("--tflite", type=str, help="TFLite model file (.tflite)")
+parser.add_argument("--onnx", type=str, help="ONNX model file (.onnx)")
 parser.add_argument("--samples", type=int, default=1000, help="Test samples")
 parser.add_argument("--noise", type=float, default=0.0, help="Noise level")
 parser.add_argument("--threshold", type=float, default=0.05)
 parser.add_argument("--show", type=int, default=10, help="Show N examples")
 args = parser.parse_args()
 
-assert args.keras or args.tflite, "Provide --keras or --tflite"
+assert args.keras or args.tflite or args.onnx, "Provide --keras, --tflite, or --onnx"
 
 # -------------------------------
 # Generate realistic test data
@@ -59,6 +61,22 @@ if args.keras:
     print(f"{Fore.CYAN}Loading Keras model...{Style.RESET_ALL}")
     model = load_model(args.keras)
     preds = model.predict(X_test, verbose=0)
+elif args.onnx:
+    print(f"{Fore.CYAN}Loading ONNX model...{Style.RESET_ALL}")
+
+    sess = ort.InferenceSession(
+        args.onnx,
+        providers=["CPUExecutionProvider"]
+    )
+
+    input_name = sess.get_inputs()[0].name
+    output_name = sess.get_outputs()[0].name
+
+    preds = sess.run(
+        [output_name],
+        {input_name: X_test}
+    )[0]
+
 
 else:
     print(f"{Fore.CYAN}Loading TFLite model...{Style.RESET_ALL}")

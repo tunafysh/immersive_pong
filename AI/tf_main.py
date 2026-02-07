@@ -28,6 +28,7 @@ parser.add_argument("--threshold", type=float, default=0.05, help="Decision thre
 parser.add_argument("--threads", type=int, default=4, help="Number of CPU threads for TensorFlow")
 parser.add_argument("--tflite", type=str, default="pong_model.tflite", help="Output TFLite filename")
 parser.add_argument("--keras", type=str, default="pong_model.keras", help="Optional Keras model filename")
+parser.add_argument("--onnx", type=str, help="ONNX model file (.onnx)")
 args = parser.parse_args()
 
 # -------------------------------

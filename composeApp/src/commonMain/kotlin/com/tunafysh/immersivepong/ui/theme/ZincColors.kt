@@ -21,7 +21,7 @@ val ZincDarkColors = darkColorScheme(
     onPrimary = Color(0xFF18181B),      // zinc900
     secondary = Color(0xFF71717A),      // zinc500
     onSecondary = Color(0xFF18181B),    // zinc900
-    background = Color(0xFF27272A),     // zinc800
+    background = Color(0xFF000000),     // zinc800
     surface = Color(0xFF3F3F46),        // zinc700
     onSurface = Color(0xFFE4E4E7)       // zinc200
 )
