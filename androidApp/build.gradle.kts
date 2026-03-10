@@ -7,21 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
-kotlin {
-    target {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
-
-    dependencies {
-        implementation(projects.composeApp)
-        implementation(libs.androidx.activity.compose)
-        implementation(libs.compose.uiToolingPreview)
-    }
-}
-
-configure<ApplicationExtension> {
+android {
     namespace = "com.tunafysh.immersivepong"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -49,5 +35,8 @@ configure<ApplicationExtension> {
 }
 
 dependencies {
+    implementation(projects.composeApp)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
 }

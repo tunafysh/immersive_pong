@@ -1,13 +1,18 @@
 package com.tunafysh.immersivepong
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.Icons.Outlined
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Group
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -21,100 +26,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
-@Composable
-private fun PersonIcon(modifier: Modifier = Modifier, tint: Color = Color.White) {
-    Canvas(modifier = modifier.size(24.dp)) {
-        val strokeWidth = 2.dp.toPx()
-        // Head
-        drawCircle(
-            color = tint,
-            radius = size.width * 0.2f,
-            center = Offset(size.width / 2, size.height * 0.3f),
-            style = Stroke(width = strokeWidth)
-        )
-        // Body
-        drawLine(
-            color = tint,
-            start = Offset(size.width / 2, size.height * 0.5f),
-            end = Offset(size.width / 2, size.height * 0.75f),
-            strokeWidth = strokeWidth
-        )
-        // Arms
-        drawLine(
-            color = tint,
-            start = Offset(size.width * 0.3f, size.height * 0.55f),
-            end = Offset(size.width * 0.7f, size.height * 0.55f),
-            strokeWidth = strokeWidth
-        )
-        // Legs
-        drawLine(
-            color = tint,
-            start = Offset(size.width / 2, size.height * 0.75f),
-            end = Offset(size.width * 0.35f, size.height * 0.95f),
-            strokeWidth = strokeWidth
-        )
-        drawLine(
-            color = tint,
-            start = Offset(size.width / 2, size.height * 0.75f),
-            end = Offset(size.width * 0.65f, size.height * 0.95f),
-            strokeWidth = strokeWidth
-        )
-    }
-}
-
-@Composable
-private fun GroupIcon(modifier: Modifier = Modifier, tint: Color = Color.White) {
-    Canvas(modifier = modifier.size(24.dp)) {
-        val strokeWidth = 2.dp.toPx()
-        val personWidth = size.width * 0.3f
-        
-        // Left person (smaller)
-        drawCircle(
-            color = tint,
-            radius = personWidth * 0.15f,
-            center = Offset(size.width * 0.25f, size.height * 0.35f),
-            style = Stroke(width = strokeWidth)
-        )
-        drawLine(
-            color = tint,
-            start = Offset(size.width * 0.25f, size.height * 0.5f),
-            end = Offset(size.width * 0.25f, size.height * 0.7f),
-            strokeWidth = strokeWidth
-        )
-        
-        // Right person (smaller)
-        drawCircle(
-            color = tint,
-            radius = personWidth * 0.15f,
-            center = Offset(size.width * 0.75f, size.height * 0.35f),
-            style = Stroke(width = strokeWidth)
-        )
-        drawLine(
-            color = tint,
-            start = Offset(size.width * 0.75f, size.height * 0.5f),
-            end = Offset(size.width * 0.75f, size.height * 0.7f),
-            strokeWidth = strokeWidth
-        )
-        
-        // Center person (larger, in front)
-        drawCircle(
-            color = tint,
-            radius = personWidth * 0.2f,
-            center = Offset(size.width / 2, size.height * 0.3f),
-            style = Stroke(width = strokeWidth)
-        )
-        drawLine(
-            color = tint,
-            start = Offset(size.width / 2, size.height * 0.5f),
-            end = Offset(size.width / 2, size.height * 0.75f),
-            strokeWidth = strokeWidth
-        )
-    }
+sealed interface Tab {
+    data object SP : Tab
+    data object MP : Tab
 }
 
 @Composable
@@ -127,12 +43,14 @@ fun MenuScreen(onStartGame: (Boolean) -> Unit) {
         bottomBar = {
             NavigationBar {
                 NavigationBarItem(
-                    icon = { 
-                        PersonIcon(
-                            tint = if (currentTab == Tab.SP) 
-                                MaterialTheme.colorScheme.primary 
-                            else 
-                                MaterialTheme.colorScheme.onSurfaceVariant
+                    icon = {
+                        Icon(
+                            imageVector = if (currentTab == Tab.SP) {
+                                Filled.Person
+                            } else {
+                                Outlined.Person
+                            },
+                            contentDescription = ""
                         )
                     },
                     label = { Text("Single Player") },
@@ -140,12 +58,15 @@ fun MenuScreen(onStartGame: (Boolean) -> Unit) {
                     onClick = { currentTab = Tab.SP }
                 )
                 NavigationBarItem(
-                    icon = { 
-                        GroupIcon(
-                            tint = if (currentTab == Tab.MP) 
-                                MaterialTheme.colorScheme.primary 
-                            else 
-                                MaterialTheme.colorScheme.onSurfaceVariant
+                    icon = {
+                        Icon(
+                            if(currentTab == Tab.MP){
+                                Filled.Group
+                            }
+                            else {
+                                Outlined.Group
+                            },
+                            contentDescription = ""
                         )
                     },
                     label = { Text("Multiplayer") },
