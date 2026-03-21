@@ -14,13 +14,12 @@ class Scoreboard(
     var home: Int = 0,
     var visitor: Int = 0,
 ){
-    fun reset() = apply { home = 0; visitor = 0}
     fun scoreHome() = home++
     fun scoreVisitor() = visitor++
 }
 
 @Composable
-fun Scoreboard.drawVisitorScore(font: FontFamily, color: Color) {
+fun Scoreboard.DrawVisitorScore(font: FontFamily, color: Color) {
     Text(
         text = visitor.toString(),
         fontFamily = font,
@@ -30,7 +29,7 @@ fun Scoreboard.drawVisitorScore(font: FontFamily, color: Color) {
 }
 
 @Composable
-fun Scoreboard.drawHomeScore(font: FontFamily, color: Color) {
+fun Scoreboard.DrawHomeScore(font: FontFamily, color: Color) {
     Text(
         text = home.toString(),
         fontFamily = font,
@@ -40,7 +39,7 @@ fun Scoreboard.drawHomeScore(font: FontFamily, color: Color) {
 }
 
 @Composable
-fun Scoreboard.drawScores(isMultiplayer: Boolean, color: Color){
+fun Scoreboard.DrawScores(isMultiplayer: Boolean, color: Color){
     val font = scoreFontFamily()
 
     if(isMultiplayer){
@@ -50,7 +49,7 @@ fun Scoreboard.drawScores(isMultiplayer: Boolean, color: Color){
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            drawHomeScore(font, color)
+            DrawHomeScore(font, color)
         }
     } else {
         Column(
@@ -59,8 +58,8 @@ fun Scoreboard.drawScores(isMultiplayer: Boolean, color: Color){
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            drawVisitorScore(font, color)
-            drawHomeScore(font, color)
+            DrawVisitorScore(font, color)
+            DrawHomeScore(font, color)
         }
     }
 }

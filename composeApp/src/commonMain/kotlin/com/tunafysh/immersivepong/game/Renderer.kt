@@ -39,10 +39,10 @@ fun Renderer(config: RendererConfig) {
     val isMultiplayer = config is RendererConfig.MultiplayerMode
 
     Box {
-        score.drawScores(isMultiplayer, colors.inversePrimary)
+        score.DrawScores(isMultiplayer, colors.inversePrimary)
         Canvas(modifier = Modifier.fillMaxSize()) {
             // Draw ball trail and ball
-            drawTrail(trail, BALL_SIZE, colors.primary)
+            drawTrail(trail, colors.primary)
             drawBall(ball, colors)
 
             if (redrawTrigger < 0) return@Canvas // Force redraw hook (i have no idea how tf this works but it does.)
