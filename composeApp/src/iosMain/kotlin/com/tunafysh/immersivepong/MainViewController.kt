@@ -21,8 +21,6 @@ class ImmersiveGameViewController : UIViewController(nibName = null, bundle = nu
 
     override fun prefersStatusBarHidden(): Boolean = isImmersive
 
-    fun prefersHomeIndicatorAutoHidden(): Boolean = isImmersive
-
     @OptIn(ExperimentalForeignApi::class)
     override fun viewDidLoad() {
         super.viewDidLoad()
@@ -44,19 +42,15 @@ class ImmersiveGameViewController : UIViewController(nibName = null, bundle = nu
         composeViewController.didMoveToParentViewController(this)
     }
 
-    companion object {
-        var instance: ImmersiveGameViewController? = null
-    }
-
     override fun viewDidAppear(animated: Boolean) {
         super.viewDidAppear(animated)
         instance = this
     }
 }
 
+private var instance: ImmersiveGameViewController? = null
+
 @Composable
 actual fun ImmersiveMode(enabled: Boolean) {
-    ImmersiveGameViewController.instance?.isImmersive = enabled
+    instance?.isImmersive = enabled
 }
-
-fun MainViewController() = ImmersiveGameViewController()

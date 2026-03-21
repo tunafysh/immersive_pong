@@ -1,10 +1,8 @@
 package com.tunafysh.immersivepong
 
 import com.google.ai.edge.litert.Accelerator
-import com.google.ai.edge.litert.CompiledModel;
+import com.google.ai.edge.litert.CompiledModel
 import com.google.ai.edge.litert.TensorBuffer
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 
 actual fun predictPaddleMove(inputs: List<Float>): String {
     // Load the compiled TFLite model
@@ -33,8 +31,8 @@ actual fun predictPaddleMove(inputs: List<Float>): String {
     val index = output.indices.maxByOrNull { output[it] } ?: 2
 
     return when (index) {
-        0 -> "up"
-        1 -> "down"
+        0 -> "left"
+        1 -> "right"
         else -> "stay"
     }
 }

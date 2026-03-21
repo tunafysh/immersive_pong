@@ -5,13 +5,14 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    kotlin("plugin.serialization") version "2.3.10"
 }
 
 kotlin {
-    androidLibrary {
+    android{
         namespace = "com.tunafysh.immersivepong"
-        compileSdk = libs.versions.android.compileSdk.get().toInt()
-        minSdk = 21
+        compileSdk = 36
+        minSdk = 26
         androidResources {
             enable = true
         }
@@ -27,16 +28,18 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "Immersive Pong"
             isStatic = true
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.server.core)
+            implementation(libs.ktor.server.netty)
+            implementation(libs.ktor.server.content.negotiation)
             implementation(libs.tensorflow)
         }
         commonMain.dependencies {
@@ -45,19 +48,15 @@ kotlin {
             implementation(libs.compose.material3)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
-            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.compose.material.icons.extended)
-
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-            implementation(libs.ktor.client.darwin)
         }
     }
-}
 
+    compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+}
