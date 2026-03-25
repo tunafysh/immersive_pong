@@ -20,7 +20,7 @@ jobs:
           npm install
       - name: Publish to Cloudflare
         run: |
-          cd immersive_pong/Server
+          cd Server
           npx wrangler publish
         env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
