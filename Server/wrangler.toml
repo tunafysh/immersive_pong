@@ -1,0 +1,11 @@
+name = "immersive-pong-server"
+main = "server.js"
+compatibility_date = "2024-01-01"
+
+# For local development
+[env.development]
+name = "immersive-pong-server-dev"
+
+# For production deployment
+[env.production]
+name = "immersive-pong-server"
