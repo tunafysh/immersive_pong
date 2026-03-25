@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'Server/**'
+  workflow_dispatch: {}
 
 jobs:
   deploy:
